@@ -5,24 +5,14 @@ Authors
 * MinRK
 """
 
+#-----------------------------------------------------------------------------
+#  Copyright (c) 2010-2012 Brian Granger, Min Ragan-Kelley
 #
-#    Copyright (c) 2010 Min Ragan-Kelley, Brian Granger
+#  This file is part of pyzmq
 #
-#    This file is part of pyzmq.
-#
-#    pyzmq is free software; you can redistribute it and/or modify it under
-#    the terms of the Lesser GNU General Public License as published by
-#    the Free Software Foundation; either version 3 of the License, or
-#    (at your option) any later version.
-#
-#    pyzmq is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    Lesser GNU General Public License for more details.
-#
-#    You should have received a copy of the Lesser GNU General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
+#  Distributed under the terms of the New BSD License.  The full license is in
+#  the file COPYING.BSD, distributed as part of this software.
+#-----------------------------------------------------------------------------
 
 import sys
 
@@ -31,9 +21,16 @@ if major >= 3:
     bytes = bytes
     unicode = str
     basestring = (bytes, unicode)
+    asbytes = lambda s: s if isinstance(s, bytes) else unicode(s).encode('utf8')
+
 elif major == 2:
     unicode = unicode
     bytes = str
     basestring = basestring
+    asbytes = str
 
-__all__ = ['bytes', 'unicode', 'basestring']
+# give short 'b' alias for asbytes, so that we can use fake b('stuff')
+# to simulate b'stuff'
+b = asbytes
+
+__all__ = ['asbytes', 'bytes', 'unicode', 'basestring', 'b']
